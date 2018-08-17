@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>TO DO LIST APP</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <section class="todoapp">
+            <header class="header">
+                <h1>Todos</h1>
+                <input class="new-todo"
+                       autofocus autocomplete="off"
+                       placeholder="What needs to be done?"
+                       v-model="newTodo"
+                       @keyup.enter="addTodo">
+                <button class="add-todo" type="button" @click="addTodo">Add Todo</button>
+            </header>
+            <section class="main" v-show="todos.length" v-cloak>
+                <ul class="todo-list">
+                    <li v-for="todo in filteredTodos"
+                        class="todo"
+                        :key="todo.id"
+                        :class="{ completed: todo.completed, editing: todo == editedTodo }">
+                        <div class="view">
+                            <input class="toggle" type="checkbox" v-model="todo.completed">
+                            <label>{{ todo.title }}</label>
+                            <button class="destroy" @click="removeTodo(todo)"></button>
+                        </div>
+                        <input class="edit" type="text"
+                               v-model="todo.title"
+                               v-todo-focus="todo == editedTodo"
+                              >
+                    </li>
+                </ul>
+            </section>
+            <footer class="footer" v-show="todos.length" v-cloak>
+                <span class="todo-count">
+                  <strong>{{ remaining }} of {{todos.length}} remaining</strong>
+                </span>
+                <button class="clear-completed" @click="removeCompleted" v-show="todos.length > remaining">
+                   Archive
+                </button>
+            </footer>
+        </section>
+    </div>
+    <script src="./script/script.js"></script>
+</body>
+</html>
